@@ -1,0 +1,22 @@
+fx_version 'cerulean'
+game 'gta5'
+
+author 'SpiritFramework'
+description 'Enhanced Notification System'
+version '2.0.0'
+
+ui_page 'html/index.html'
+
+files {
+    'html/index.html',
+    'html/script.js',
+    'html/style.css'
+}
+
+client_scripts {
+    'client.lua'
+}
+
+exports {
+    'Show'
+}

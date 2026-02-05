@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+    -webkit-user-select: none;
+    /* CRITICAL: Transparent background */
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+#notifications-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    width: auto;
+    height: auto;
+    background: transparent !important;
+}
+
+.notification {
+    width: fit-content;
+    max-width: 350px;
+    min-width: 250px;
+    /* Use solid semi-transparent background instead of backdrop-filter */
+    background: rgba(40, 40, 40, 0.85) !important;
+    border-left: 4px solid;
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: #ffffff;
+    /* Remove box-shadow that might cause rendering issues */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+    /* REMOVED: backdrop-filter: blur() - causes black box in FiveM */
+    animation: slideIn 0.4s ease-out;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.notification:hover {
+    transform: translateX(-8px);
+    background: rgba(50, 50, 50, 0.9) !important;
+}
+
+.notification.success { border-left-color: #34d399; }
+.notification.error { border-left-color: #f87171; }
+.notification.info { border-left-color: #60a5fa; }
+.notification.warning { border-left-color: #fbbf24; }
+.notification.default { border-left-color: #9ca3af; }
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.notification-icon {
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.notification.success .notification-icon { color: #34d399; background: rgba(52, 211, 153, 0.2); }
+.notification.error .notification-icon { color: #f87171; background: rgba(248, 113, 113, 0.2); }
+.notification.info .notification-icon { color: #60a5fa; background: rgba(96, 165, 250, 0.2); }
+.notification.warning .notification-icon { color: #fbbf24; background: rgba(251, 191, 36, 0.2); }
+.notification.default .notification-icon { color: #9ca3af; background: rgba(156, 163, 175, 0.2); }
+
+.notification-message {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: currentColor;
+    opacity: 0.8;
+    animation: shrink linear forwards;
+}
+
+.notification.success .notification-progress { background: #34d399; }
+.notification.error .notification-progress { background: #f87171; }
+.notification.info .notification-progress { background: #60a5fa; }
+.notification.warning .notification-progress { background: #fbbf24; }
+.notification.default .notification-progress { background: #9ca3af; }
+
+@keyframes shrink {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(100px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(100px); }
+}
+
+.notification.removing {
+    animation: slideOut 0.3s ease-in forwards;
+    pointer-events: none;
+}
+
+#notifications-container:empty {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    #notifications-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+    .notification {
+        max-width: 100%;
+        width: 100%;
+    }
+}
